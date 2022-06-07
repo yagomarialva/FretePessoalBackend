@@ -26,8 +26,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**"
+    private static final String[] PUBLIC_MATCHERS_ALL = {
+            "/h2-console/**",
+            "/api/v1/users/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
@@ -39,11 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO: Depois add configuração de controle de profile.
         http.cors().and().csrf().disable();
         http.authorizeHttpRequests()
-                .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers(PUBLIC_MATCHERS_ALL).permitAll()
                 .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
                 .anyRequest().authenticated();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.headers().frameOptions().disable();
     }
 
     @Bean
@@ -53,5 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration()
                 .applyPermitDefaultValues());
         return source;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder (){
+        return new BCryptPasswordEncoder();
     }
 }
