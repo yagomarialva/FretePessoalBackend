@@ -1,15 +1,16 @@
 package com.unnt.fretepessoal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.unnt.fretepessoal.model.enums.Profile;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -33,7 +34,13 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
 
-    public User(){}
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILES")
+    private Set<Integer> profiles = new HashSet<>();
+
+    public User(){
+        addProfile(Profile.CLIENT);
+    }
 
     public User(Integer id, String name, String email, String cpf, String password){
         super();
@@ -42,5 +49,14 @@ public class User implements Serializable {
         this.email = email;
         this.cpf = cpf;
         this.password = password;
+        addProfile(Profile.CLIENT);
+    }
+
+    public Set<Profile> getProfiles(){
+        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Profile profile) {
+        profiles.add(profile.getNumber());
     }
 }

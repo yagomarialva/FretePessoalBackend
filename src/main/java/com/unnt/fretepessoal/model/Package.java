@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
-public class Pacote {
+public class Package {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Pacote {
 	private Long preco;
 	
 	
-	public Pacote() {
+	public Package() {
 		super();
 	}
 
@@ -160,8 +160,8 @@ public class Pacote {
 
 
 
-	public Pacote(Long id, String icone, String destino, Date dataSaida, Date dataChegada, String destinatario,
-			String status, Long peso, Long preco) {
+	public Package(Long id, String icone, String destino, Date dataSaida, Date dataChegada, String destinatario,
+				   String status, Long peso, Long preco) {
 		super();
 		this.id = id;
 		this.icone = icone;
@@ -191,7 +191,7 @@ public class Pacote {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pacote other = (Pacote) obj;
+		Package other = (Package) obj;
 		return Objects.equals(id, other.id);
 	}
 
