@@ -1,5 +1,7 @@
 package com.unnt.fretepessoal.config;
 
+import com.unnt.fretepessoal.security.JWTAuthenticationFilter;
+import com.unnt.fretepessoal.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -26,13 +28,20 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JWTUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     private static final String[] PUBLIC_MATCHERS_ALL = {
             "/h2-console/**",
-            "/api/v1/users/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
-            "/api/v1/pacotes/**"
+            "/api/v1/pacotes/**",
+            "/api/v1/users/**"
     };
 
     @Override
@@ -45,7 +54,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
         http.headers().frameOptions().disable();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Bean
