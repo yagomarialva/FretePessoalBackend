@@ -12,20 +12,17 @@ import com.unnt.fretepessoal.repository.PackageRepository;
 
 
 @RestController
-@RequestMapping("/api/v1/pacotes")
+@RequestMapping("/pacotes")
 public class PacoteController {
 
 	@Autowired
 	private PackageRepository packageRepository;
-
-
 	
 	public PacoteController(PackageRepository packageRepository) {
 		super();
 		this.packageRepository = packageRepository;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping
 	public List<Package> getPacote(){
 		return packageRepository.findAll();
@@ -33,8 +30,7 @@ public class PacoteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@CrossOrigin(origins = "http://localhost:4200")
-	public Package setPacote(@RequestBody Package aPackage) {
+	public Package addPacote(@RequestBody Package aPackage) {
 		return packageRepository.save(aPackage);
 	}
 

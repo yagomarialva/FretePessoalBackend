@@ -13,21 +13,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/v1/users")
+@RequestMapping(value = "/users")
 public class UserController {
+
     @Autowired
     private UserService service;
 
-    /*GET*/
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll(){
         List<User> users = service.getUserList();
-        List<UserDTO> dtos = users.stream().map(obj -> new UserDTO(obj)).collect(Collectors.toList());
+        List<UserDTO> dtos = users.stream().map(UserDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(dtos);
     }
 
-    /*POST*/
+    @PostMapping("/signup")
+    public ResponseEntity<User> saveApp(@RequestBody NewUserDTO dto) {
+        User body = service.saveApp(dto);
+        return ResponseEntity.ok().body(body);
+    }
+
     @PostMapping
     public ResponseEntity<User> save(@RequestBody NewUserDTO dto){
 //        TODO: add @Valid

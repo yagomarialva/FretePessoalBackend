@@ -2,6 +2,7 @@ package com.unnt.fretepessoal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unnt.fretepessoal.model.enums.Profile;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;
 
@@ -25,11 +26,24 @@ public class User implements Serializable {
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String cpf;
 
-//    private Integer tipoCliente;
+    @Column(unique = true)
+    private String phone;
+
+    private String city;
+
+    private String uf;
+
+    private String birthDate;
+
+    private String cep;
+
+    private String address;
 
     @JsonIgnore
     private String password;
@@ -42,12 +56,20 @@ public class User implements Serializable {
         addProfile(Profile.CLIENT);
     }
 
-    public User(Integer id, String name, String email, String cpf, String password){
-        super();
+    public User( Integer id, String name, String email,
+                 String cpf, String phone, String city,
+                 String uf, String birthDate, String cep,
+                 String address, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpf = cpf;
+        this.phone = phone;
+        this.city = city;
+        this.uf = uf;
+        this.birthDate = birthDate;
+        this.cep = cep;
+        this.address = address;
         this.password = password;
         addProfile(Profile.CLIENT);
     }

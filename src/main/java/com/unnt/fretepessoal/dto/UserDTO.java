@@ -1,5 +1,6 @@
 package com.unnt.fretepessoal.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unnt.fretepessoal.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

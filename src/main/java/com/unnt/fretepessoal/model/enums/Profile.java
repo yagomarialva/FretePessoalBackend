@@ -7,10 +7,10 @@ public enum Profile {
     ADMIN(1, "ROLE_ADMIN"),
     CLIENT(2, "ROLE_CLIENT");
 
-    private Integer number;
-    private String description;
+    private final Integer number;
+    private final String description;
 
-    private Profile(Integer number, String description){
+    Profile(Integer number, String description) {
         this.number = number;
         this.description = description;
     }

@@ -3,16 +3,18 @@ package com.unnt.fretepessoal.services;
 import com.unnt.fretepessoal.dto.NewUserDTO;
 import com.unnt.fretepessoal.dto.UserDTO;
 import com.unnt.fretepessoal.model.User;
+import com.unnt.fretepessoal.model.enums.Profile;
 import com.unnt.fretepessoal.repository.UserRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -34,6 +36,14 @@ public class UserService {
                 () -> null
         );
     }
+
+    @Transactional
+    public User saveApp(NewUserDTO dto) {
+        User user = fromUser(dto);
+        user.setProfiles(Set.of(Profile.CLIENT.getNumber()));
+        return userRepo.save(user);
+    }
+
 //    Post
     @Transactional
     public User save(NewUserDTO dto){
@@ -58,9 +68,20 @@ public class UserService {
         }
     }
 
-    public User fromUser(NewUserDTO dto){
-        User user = new User(null, dto.getName(), dto.getEmail(), dto.getCpf(), bCryptPasswordEncoder.encode(dto.getPassword()));
-        return user;
+    private User fromUser(NewUserDTO dto) {
+        return new User(
+        null,
+            dto.getName(),
+            dto.getEmail(),
+            dto.getCpf(),
+            dto.getPhone(),
+            dto.getCity(),
+            dto.getUf(),
+            dto.getBirthDate(),
+            dto.getCep(),
+            dto.getAddress(),
+            bCryptPasswordEncoder.encode(dto.getPassword())
+        );
     }
 
     private User fromUser(UserDTO dto, User user){
