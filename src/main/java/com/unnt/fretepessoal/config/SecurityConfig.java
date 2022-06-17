@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
-        "/api/v1/pacotes/**",
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
@@ -53,16 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(corsConfigurationSource())
             .and()
             .csrf().disable();
-        http.authorizeHttpRequests()
-                .antMatchers(PUBLIC_MATCHERS_ALL).permitAll()
-                .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
-                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-                .anyRequest().authenticated();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil, gson));
-        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
-        http.headers().frameOptions().disable();
+        http.authorizeHttpRequests()
+            .antMatchers(PUBLIC_MATCHERS_ALL).permitAll()
+            .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
+            .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil, gson))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService))
+            .headers().frameOptions().disable();
     }
 
     @Override

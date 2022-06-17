@@ -24,7 +24,7 @@ public class PacoteController {
 	}
 
 	@GetMapping
-	public List<Package> getPacote(){
+	public List<Package> getPacote(@RequestParam String query){
 		return packageRepository.findAll();
 	}
 	
