@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -25,9 +26,11 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    Get
-    public List<User> getUserList(){
-        return userRepo.findAll();
+    public List<UserDTO> getUserList() {
+        return userRepo.findAll()
+            .stream()
+            .map(UserDTO::new)
+            .collect(Collectors.toList());
     }
 
     public User findById (Integer id){

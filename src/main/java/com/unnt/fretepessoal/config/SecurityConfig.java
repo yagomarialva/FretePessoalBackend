@@ -21,6 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -48,10 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // TODO: Depois add configuração de controle de profile.
-        http.cors().configurationSource(corsConfigurationSource())
-            .and()
-            .csrf().disable();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeHttpRequests()
@@ -62,7 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil, gson))
             .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService))
-            .headers().frameOptions().disable();
+            .headers().frameOptions().disable()
+            .and()
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
+            .csrf().disable();
     }
 
     @Override
@@ -84,8 +86,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource(){
         final UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration()
-                .applyPermitDefaultValues());
+        final CorsConfiguration corsConfig = new CorsConfiguration()
+                .applyPermitDefaultValues();
+        corsConfig.setAllowedMethods(
+            List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+        );
+        source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }
 }

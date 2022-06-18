@@ -56,6 +56,10 @@ public class User implements Serializable {
         addProfile(Profile.CLIENT);
     }
 
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public User( Integer id, String name, String email,
                  String cpf, String phone, String city,
                  String uf, String birthDate, String cep,

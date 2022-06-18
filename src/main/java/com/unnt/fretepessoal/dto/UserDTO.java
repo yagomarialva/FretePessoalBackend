@@ -1,6 +1,5 @@
 package com.unnt.fretepessoal.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unnt.fretepessoal.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +15,8 @@ public class UserDTO implements Serializable {
 
     private Integer id;
 
-//    @NotEmpty(message = "Preenchimento obrigatório")
-//    @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 à 120 caracteres.")
     private String name;
 
-//    @NotEmpty(message = "Preenchimento obrigatório")
-//    @Email(message = "Email inválido.")
     private String email;
 
     public UserDTO(User cliente){

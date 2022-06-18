@@ -21,10 +21,8 @@ public class UserController {
 
 //    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll(){
-        List<User> users = service.getUserList();
-        List<UserDTO> dtos = users.stream().map(UserDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok().body(dtos);
+    public List<UserDTO> findAll(@RequestParam() String query){
+        return service.getUserList();
     }
 
     @PostMapping("/signup")
@@ -40,7 +38,6 @@ public class UserController {
         return ResponseEntity.ok().body(body);
     }
 
-    /*PUT*/
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserDTO dto){
 //      TODO: add @Valid
