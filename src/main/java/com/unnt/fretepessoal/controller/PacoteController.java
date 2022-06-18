@@ -2,6 +2,7 @@ package com.unnt.fretepessoal.controller;
 import java.util.List;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
+import com.unnt.fretepessoal.dto.PacoteInfoDTO;
 import com.unnt.fretepessoal.services.PacoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,16 @@ public class PacoteController {
 		return service.list(query);
 	}
 
+	@GetMapping("/novos")
+	public List<PacoteDTO> listNovosPacotes() {
+		return service.listNovosPacotes();
+	}
+
 	@GetMapping("/{id}")
 	public PacoteDTO getOne(@PathVariable Long id) {
 		return service.getOne(id);
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PacoteDTO create(@RequestBody PacoteDTO aPackage) {

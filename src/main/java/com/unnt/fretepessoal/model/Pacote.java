@@ -31,9 +31,9 @@ public class Pacote {
 
     private Date dataCriacao;
 
-    private Date dataSaida;
+    private Date dataOrigem;
 
-    private Date dataChegada;
+    private Date dataDestino;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dono_id", nullable = false)

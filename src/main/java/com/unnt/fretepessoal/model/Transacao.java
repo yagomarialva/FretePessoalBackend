@@ -5,6 +5,7 @@ import com.unnt.fretepessoal.model.enums.TransacaoStatus;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,10 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private java.util.Date dataCriacao;
+    private Date dataCriacao;
+
+    @Column(nullable = false)
+    private String code;
 
     @ManyToOne
     @JoinColumn(name = "viajante_id", nullable = false)
@@ -29,16 +33,21 @@ public class Transacao {
     @Enumerated(EnumType.STRING)
     private TransacaoStatus status;
 
-    private Date dataSaida;
+    private Date dataOrigem;
 
-    private Date dataChegada;
+    private Date dataDestino;
 
-    private String saida;
+    private BigDecimal preco;
 
-    private String chegada;
+    private Double peso;
+
+    private String origem;
+
+    private String destino;
 
     public Transacao() {
-        dataCriacao = new Date();
+        this.dataCriacao = new Date();
+        this.code = ("" + this.dataCriacao.getTime())
+                .substring(7) + "RT";
     }
-
 }

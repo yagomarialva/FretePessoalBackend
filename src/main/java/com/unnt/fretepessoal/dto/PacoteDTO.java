@@ -32,10 +32,10 @@ public class PacoteDTO implements Serializable {
     private Date dataCriacao;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date dataSaida;
+    private Date dataOrigem;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date dataChegada;
+    private Date dataDestino;
 
     public PacoteDTO(Pacote pacote) {
         this.id = pacote.getId();
@@ -51,8 +51,8 @@ public class PacoteDTO implements Serializable {
         this.preco = pacote.getPreco();
 
         this.dataCriacao = pacote.getDataCriacao();
-        this.dataSaida = pacote.getDataSaida();
-        this.dataChegada = pacote.getDataChegada();
+        this.dataOrigem = pacote.getDataOrigem();
+        this.dataDestino = pacote.getDataDestino();
     }
 
 }

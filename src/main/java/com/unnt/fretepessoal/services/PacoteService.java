@@ -2,14 +2,13 @@ package com.unnt.fretepessoal.services;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
 import com.unnt.fretepessoal.model.Pacote;
-import com.unnt.fretepessoal.model.User;
 import com.unnt.fretepessoal.model.enums.PacoteStatus;
 import com.unnt.fretepessoal.repository.PacoteRepository;
 import com.unnt.fretepessoal.repository.UserRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,17 +21,25 @@ public class PacoteService {
     @Autowired
     private UserRepository userRepo;
 
+    public List<PacoteDTO> listNovosPacotes() {
+        return repo.findByStatus(PacoteStatus.NOVO_PACOTE)
+            .stream()
+            .map(PacoteDTO::new)
+            .collect(Collectors.toList());
+    }
+
     public List<PacoteDTO> list(String query) {
-        return repo.findAll()
-                   .stream()
-                   .map(PacoteDTO::new)
-                   .collect(Collectors.toList());
+        return (StringUtils.isEmpty(query)
+                ? repo.findAll() : repo.findAllByQuery('%' + query + '%')
+        ).stream()
+                .map(PacoteDTO::new)
+                .collect(Collectors.toList());
     }
 
     public PacoteDTO save(Long id, PacoteDTO aPackage) {
         Pacote user = (id == null)
-            ? new Pacote()
-            : repo.getById(id);
+                ? new Pacote()
+                : repo.getById(id);
 
         user.setDescricao(aPackage.getDescricao());
         user.setIcone(aPackage.getIcone());
