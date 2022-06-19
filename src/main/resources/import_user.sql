@@ -1,5 +1,5 @@
 insert into tb_user ( name, email, cpf, phone, city, uf, birth_date, cep, address, password )
-    VALUES ('admin', 'admin@email.com', '000.000.000-00', '(92) 98454-3122',
+    VALUES ('Administrator', 'admin@email.com', '000.000.000-00', '(92) 98454-3122',
             'Manaus', 'AM', '01/01/2000', '69000000', 'Tv Araquari 184',
             '$2a$10$o61u5t/r0R2jhOouDGWCFuwOLl31NIh8UiDVzRN4TSBybUs4keCmW');
 
@@ -18,3 +18,10 @@ insert into profiles ( user_id, profiles) VALUES (1, 1);
 insert into profiles ( user_id, profiles) VALUES (1, 2);
 insert into profiles ( user_id, profiles) VALUES (2, 2);
 insert into profiles ( user_id, profiles) VALUES (3, 2);
+
+insert into city (id, name) VALUES ("Manaus");
+insert into city (id, name) VALUES ("São Paulo");
+insert into city (id, name) VALUES ("Rio de Janeiro");
+insert into city (id, name) VALUES ("Porto Alegre");
+insert into city (id, name) VALUES ("Fortaleza");
+insert into city (id, name) VALUES ("Belo Horizonte");

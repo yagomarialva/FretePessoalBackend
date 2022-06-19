@@ -43,9 +43,13 @@ public class Transacao {
 
     private Double peso;
 
-    private String origem;
+    @ManyToOne()
+    @JoinColumn(name = "origem_id", nullable = false)
+    private City origem;
 
-    private String destino;
+    @ManyToOne()
+    @JoinColumn(name = "destino_id", nullable = false)
+    private City destino;
 
     public Transacao() {
         this.dataCriacao = new Date();

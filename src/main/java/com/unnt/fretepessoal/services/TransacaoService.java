@@ -1,6 +1,7 @@
 package com.unnt.fretepessoal.services;
 
 import com.unnt.fretepessoal.dto.TransacaoDTO;
+import com.unnt.fretepessoal.model.City;
 import com.unnt.fretepessoal.model.Pacote;
 import com.unnt.fretepessoal.model.Transacao;
 import com.unnt.fretepessoal.model.enums.PacoteStatus;
@@ -43,8 +44,8 @@ public class TransacaoService {
     public TransacaoDTO save(Long id, TransacaoDTO toSave) {
         Transacao model = (id == null) ? new Transacao() : transacaoRepo.getById(id);
 
-        model.setOrigem(toSave.getOrigem());
-        model.setDestino(toSave.getDestino());
+        model.setOrigem(new City(toSave.getOrigem()));
+        model.setDestino(new City(toSave.getDestino()));
         model.setViajante(userRepo.getById(toSave.getViajante()));
         model.setStatus(toSave.getStatus());
         model.setPeso(toSave.getPeso());
@@ -62,6 +63,7 @@ public class TransacaoService {
             model.setDataEntrega(new Date());
         }
         model.setStatus(newStatus);
+
         return new TransacaoDTO(transacaoRepo.save(model));
     }
 

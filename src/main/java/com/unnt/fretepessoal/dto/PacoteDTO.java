@@ -20,13 +20,15 @@ public class PacoteDTO implements Serializable {
     private String code;
     private String descricao;
     private String icone;
-    private String origem;
-    private String destino;
+    private Long origem;
+    private Long destino;
     private Integer dono;
-    private String nomeDono;
     private PacoteStatus status;
     private Double peso;
     private BigDecimal preco;
+    private String nomeOrigem;
+    private String nomeDestino;
+    private String nomeDono;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date dataCriacao;
@@ -45,13 +47,16 @@ public class PacoteDTO implements Serializable {
         this.code = pacote.getCode();
         this.descricao = pacote.getDescricao();
         this.icone = pacote.getIcone();
-        this.origem = pacote.getOrigem();
-        this.destino = pacote.getDestino();
+        this.origem = pacote.getOrigem().getId();
+        this.destino = pacote.getDestino().getId();
         this.dono = pacote.getDono().getId();
-        this.nomeDono = pacote.getDono().getName();
         this.status = pacote.getStatus();
         this.peso = pacote.getPeso();
         this.preco = pacote.getPreco();
+
+        this.nomeOrigem = pacote.getOrigem().getName();
+        this.nomeDestino = pacote.getDestino().getName();
+        this.nomeDono = pacote.getDono().getName();
 
         this.dataCriacao = pacote.getDataCriacao();
         this.dataOrigem = pacote.getDataOrigem();

@@ -1,6 +1,7 @@
 package com.unnt.fretepessoal.services;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
+import com.unnt.fretepessoal.model.City;
 import com.unnt.fretepessoal.model.Pacote;
 import com.unnt.fretepessoal.model.enums.PacoteStatus;
 import com.unnt.fretepessoal.repository.PacoteRepository;
@@ -44,8 +45,8 @@ public class PacoteService {
 
         pack.setDescricao(aPackage.getDescricao());
         pack.setIcone(aPackage.getIcone());
-        pack.setOrigem(aPackage.getOrigem());
-        pack.setDestino(aPackage.getDestino());
+        pack.setOrigem(new City(aPackage.getOrigem()));
+        pack.setDestino(new City(aPackage.getDestino()));
         pack.setDono(userRepo.getById(aPackage.getDono()));
 
         if (pack.getStatus() != null &&
