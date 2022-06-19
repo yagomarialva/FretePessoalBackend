@@ -32,6 +32,9 @@ public class PacoteDTO implements Serializable {
     private Date dataCriacao;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date dataEntrega;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date dataOrigem;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -53,6 +56,7 @@ public class PacoteDTO implements Serializable {
         this.dataCriacao = pacote.getDataCriacao();
         this.dataOrigem = pacote.getDataOrigem();
         this.dataDestino = pacote.getDataDestino();
+        this.dataEntrega = pacote.getDataEntrega();
     }
 
 }

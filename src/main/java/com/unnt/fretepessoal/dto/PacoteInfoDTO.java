@@ -22,8 +22,8 @@ public class PacoteInfoDTO {
         this.dono = pacote.getDono().getName();
         this.peso = pacote.getPeso();
         this.status = pacote.getStatus().ordinal() < PacoteStatus.ENTREGUE.ordinal()
-                ? TransacaoStatus.VIAJANDO.name()
-                : TransacaoStatus.CONCLUIDO.name();
+                ? TransacaoStatus.PENDENTE.name()
+                : TransacaoStatus.COMPLETO.name();
     }
 
 }

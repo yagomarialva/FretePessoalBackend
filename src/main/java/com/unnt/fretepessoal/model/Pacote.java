@@ -31,6 +31,8 @@ public class Pacote {
 
     private Date dataCriacao;
 
+    private Date dataEntrega;
+
     private Date dataOrigem;
 
     private Date dataDestino;

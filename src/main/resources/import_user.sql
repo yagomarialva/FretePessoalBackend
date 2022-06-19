@@ -16,3 +16,5 @@ insert into tb_user ( name, email, cpf, phone, city, uf, birth_date, cep, addres
 insert into profiles ( user_id, profiles) VALUES (1, 1);
 
 insert into profiles ( user_id, profiles) VALUES (1, 2);
+insert into profiles ( user_id, profiles) VALUES (2, 2);
+insert into profiles ( user_id, profiles) VALUES (3, 2);

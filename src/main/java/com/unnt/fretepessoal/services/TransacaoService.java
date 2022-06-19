@@ -1,6 +1,5 @@
 package com.unnt.fretepessoal.services;
 
-import com.unnt.fretepessoal.dto.PacoteDTO;
 import com.unnt.fretepessoal.dto.TransacaoDTO;
 import com.unnt.fretepessoal.model.Pacote;
 import com.unnt.fretepessoal.model.Transacao;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +54,14 @@ public class TransacaoService {
 
         updatePacotes(model, toSave);
 
+        TransacaoStatus newStatus = model.getPacotes().stream().anyMatch(it ->
+                it.getStatus().equals(PacoteStatus.A_CAMINHO))
+                ? TransacaoStatus.PENDENTE : TransacaoStatus.COMPLETO;
+        if (!model.getStatus().equals(TransacaoStatus.COMPLETO) &&
+                newStatus.equals(TransacaoStatus.COMPLETO)) {
+            model.setDataEntrega(new Date());
+        }
+        model.setStatus(newStatus);
         return new TransacaoDTO(transacaoRepo.save(model));
     }
 
@@ -66,18 +74,14 @@ public class TransacaoService {
                 pacote.setDataDestino(toSave.getDataDestino());
                 pacote.setTransacao(transacao);
                 pacote.setStatus(
-                    it.getStatus().equals(TransacaoStatus.CONCLUIDO.name())
-                        ? PacoteStatus.ENTREGUE : PacoteStatus.A_CAMINHO
+                        it.getStatus().equals(TransacaoStatus.COMPLETO.name())
+                                ? PacoteStatus.ENTREGUE : PacoteStatus.A_CAMINHO
                 );
                 pacote = pacoteRepo.save(pacote);
             }
             pacotes.add(pacote);
         });
         transacao.setPacotes(pacotes);
-        transacao.setStatus(
-            pacotes.stream().anyMatch(it -> it.getStatus().equals(PacoteStatus.A_CAMINHO))
-                ? TransacaoStatus.VIAJANDO : TransacaoStatus.CONCLUIDO
-        );
     }
 
     public TransacaoDTO getOne(Long id) {

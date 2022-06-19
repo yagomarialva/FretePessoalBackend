@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,20 +38,28 @@ public class PacoteService {
     }
 
     public PacoteDTO save(Long id, PacoteDTO aPackage) {
-        Pacote user = (id == null)
+        Pacote pack = (id == null)
                 ? new Pacote()
                 : repo.getById(id);
 
-        user.setDescricao(aPackage.getDescricao());
-        user.setIcone(aPackage.getIcone());
-        user.setOrigem(aPackage.getOrigem());
-        user.setDestino(aPackage.getDestino());
-        user.setDono(userRepo.getById(aPackage.getDono()));
-        user.setStatus(aPackage.getStatus());
-        user.setPeso(aPackage.getPeso());
-        user.setPreco(aPackage.getPreco());
+        pack.setDescricao(aPackage.getDescricao());
+        pack.setIcone(aPackage.getIcone());
+        pack.setOrigem(aPackage.getOrigem());
+        pack.setDestino(aPackage.getDestino());
+        pack.setDono(userRepo.getById(aPackage.getDono()));
 
-        return new PacoteDTO(repo.save(user));
+        if (pack.getStatus() != null &&
+            pack.getStatus().ordinal() < PacoteStatus.FINALIZADO.ordinal() &&
+            aPackage.getStatus().equals(PacoteStatus.FINALIZADO)) {
+            pack.setDataEntrega(new Date());
+        }
+
+        pack.setStatus(aPackage.getStatus());
+
+        pack.setPeso(aPackage.getPeso());
+        pack.setPreco(aPackage.getPreco());
+
+        return new PacoteDTO(repo.save(pack));
     }
 
     public PacoteDTO getOne(Long id) {

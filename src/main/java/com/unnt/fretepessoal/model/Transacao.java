@@ -18,8 +18,6 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date dataCriacao;
-
     @Column(nullable = false)
     private String code;
 
@@ -33,9 +31,13 @@ public class Transacao {
     @Enumerated(EnumType.STRING)
     private TransacaoStatus status;
 
+    private Date dataCriacao;
+
     private Date dataOrigem;
 
     private Date dataDestino;
+
+    private Date dataEntrega;
 
     private BigDecimal preco;
 
