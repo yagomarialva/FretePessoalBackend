@@ -29,6 +29,11 @@ public class PacoteController {
 		return service.listNovosPacotes();
 	}
 
+	@GetMapping("/disponiveis")
+	public List<PacoteDTO> listarDisponiveis(@RequestParam Long origem, @RequestParam Long destino) {
+		return service.litarDisponiveis(origem, destino);
+	}
+
 	@GetMapping("/{id}")
 	public PacoteDTO getOne(@PathVariable Long id) {
 		return service.getOne(id);

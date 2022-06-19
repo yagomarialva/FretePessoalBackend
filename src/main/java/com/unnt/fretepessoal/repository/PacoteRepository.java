@@ -17,10 +17,10 @@ public interface PacoteRepository extends JpaRepository<Pacote, Long> {
     @Query("SELECT a FROM Pacote a " +
                 "inner join a.dono d " +
                     "WHERE d.name LIKE ?1 " +
-                    "OR a.code LIKE ?1 " +
-                    "OR a.origem LIKE ?1 " +
-                    "OR a.destino LIKE ?1")
+                    "OR a.code LIKE ?1 ")
     List<Pacote> findAllByQuery(String s);
 
     List<Pacote> findByStatus(PacoteStatus status);
+
+    List<Pacote> findByStatusAndOrigem_idAndDestino_id(PacoteStatus status, Long origem, Long destino);
 }

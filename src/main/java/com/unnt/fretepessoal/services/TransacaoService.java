@@ -76,7 +76,7 @@ public class TransacaoService {
                 pacote.setDataDestino(toSave.getDataDestino());
                 pacote.setTransacao(transacao);
                 pacote.setStatus(
-                        it.getStatus().equals(TransacaoStatus.COMPLETO.name())
+                        it.getStatus().equals(TransacaoStatus.COMPLETO)
                                 ? PacoteStatus.ENTREGUE : PacoteStatus.A_CAMINHO
                 );
                 pacote = pacoteRepo.save(pacote);

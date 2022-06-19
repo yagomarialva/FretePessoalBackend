@@ -5,6 +5,8 @@ import com.unnt.fretepessoal.model.enums.PacoteStatus;
 import com.unnt.fretepessoal.model.enums.TransacaoStatus;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class PacoteInfoDTO {
 
@@ -12,7 +14,8 @@ public class PacoteInfoDTO {
     private String code;
     private String dono;
     private Double peso;
-    private String status;
+    private BigDecimal preco;
+    private TransacaoStatus status;
 
     public PacoteInfoDTO() {}
 
@@ -21,9 +24,9 @@ public class PacoteInfoDTO {
         this.code = pacote.getCode();
         this.dono = pacote.getDono().getName();
         this.peso = pacote.getPeso();
+        this.preco = pacote.getPreco();
         this.status = pacote.getStatus().ordinal() < PacoteStatus.ENTREGUE.ordinal()
-                ? TransacaoStatus.PENDENTE.name()
-                : TransacaoStatus.COMPLETO.name();
+                ? TransacaoStatus.PENDENTE : TransacaoStatus.COMPLETO;
     }
 
 }

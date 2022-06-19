@@ -23,6 +23,13 @@ public class PacoteService {
     @Autowired
     private UserRepository userRepo;
 
+    public List<PacoteDTO> litarDisponiveis(Long origem, Long destino) {
+        return repo.findByStatusAndOrigem_idAndDestino_id(PacoteStatus.NOVO_PACOTE, origem, destino)
+                .stream()
+                .map(PacoteDTO::new)
+                .collect(Collectors.toList());
+    }
+
     public List<PacoteDTO> listNovosPacotes() {
         return repo.findByStatus(PacoteStatus.NOVO_PACOTE)
             .stream()

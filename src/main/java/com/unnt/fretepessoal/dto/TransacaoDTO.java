@@ -3,15 +3,20 @@ package com.unnt.fretepessoal.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.unnt.fretepessoal.model.Transacao;
 import com.unnt.fretepessoal.model.enums.TransacaoStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class TransacaoDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransacaoDTO implements Serializable {
 
     private Long id;
     private String code;
@@ -28,16 +33,16 @@ public class TransacaoDTO {
     private String nomeDestino;
     private String nomeViajante;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataCriacao;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dataEntrega;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataOrigem;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataDestino;
 
     public TransacaoDTO(Transacao transacao) {
