@@ -23,4 +23,8 @@ public interface PacoteRepository extends JpaRepository<Pacote, Long> {
     List<Pacote> findByStatus(PacoteStatus status);
 
     List<Pacote> findByStatusAndOrigem_idAndDestino_id(PacoteStatus status, Long origem, Long destino);
+
+    List<Pacote> findByDono_idAndStatusNot(Integer userId, PacoteStatus finalizado);
+
+    List<Pacote> findByDono_id(Integer userId);
 }

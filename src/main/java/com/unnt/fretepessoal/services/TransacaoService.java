@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class TransacaoService {
 
@@ -37,7 +39,7 @@ public class TransacaoService {
                 ? transacaoRepo.findAll() : transacaoRepo.findAllByQuery('%' + query + '%')
         ).stream()
                 .map(TransacaoDTO::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Transactional
@@ -90,4 +92,15 @@ public class TransacaoService {
         return new TransacaoDTO(transacaoRepo.getById(id));
     }
 
+    public TransacaoDTO getAtual(Integer userId) {
+        Transacao transacao = transacaoRepo.findByViajante_idAndStatus(userId, TransacaoStatus.PENDENTE);
+        return transacao == null ? null : new TransacaoDTO(transacao);
+    }
+
+    public List<TransacaoDTO> getHistorico(Integer userId) {
+        return transacaoRepo.findAllByViajante_id(userId)
+            .stream()
+            .map(TransacaoDTO::new)
+            .collect(toList());
+    }
 }

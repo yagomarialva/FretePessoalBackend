@@ -3,9 +3,13 @@ import java.util.List;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
 import com.unnt.fretepessoal.dto.PacoteInfoDTO;
+import com.unnt.fretepessoal.dto.TransacaoDTO;
+import com.unnt.fretepessoal.security.UserSS;
 import com.unnt.fretepessoal.services.PacoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.unnt.fretepessoal.model.Pacote;
@@ -49,5 +53,18 @@ public class PacoteController {
 	public PacoteDTO update(@PathVariable Long id, @RequestBody PacoteDTO aPackage) {
 		return service.save(id, aPackage);
 	}
-	
+
+	@GetMapping("/ativos")
+	public List<PacoteDTO> obterAtivos() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return service.getAtivos(((UserSS) auth.getPrincipal()).getId());
+	}
+
+	@GetMapping("/historico")
+	public List<PacoteDTO> obterHistorico() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return service.getHistorico(((UserSS) auth.getPrincipal()).getId());
+	}
+
+
 }

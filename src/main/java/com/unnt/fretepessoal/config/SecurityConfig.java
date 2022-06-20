@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         http.authorizeHttpRequests()
             .antMatchers(PUBLIC_MATCHERS_ALL).permitAll()
             .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()

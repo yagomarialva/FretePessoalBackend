@@ -1,6 +1,7 @@
 package com.unnt.fretepessoal.services;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
+import com.unnt.fretepessoal.dto.TransacaoDTO;
 import com.unnt.fretepessoal.model.City;
 import com.unnt.fretepessoal.model.Pacote;
 import com.unnt.fretepessoal.model.enums.PacoteStatus;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class PacoteService {
@@ -74,4 +77,17 @@ public class PacoteService {
         return new PacoteDTO(repo.getById(id));
     }
 
+    public List<PacoteDTO> getAtivos(Integer userId) {
+        return repo.findByDono_idAndStatusNot(userId, PacoteStatus.FINALIZADO)
+                .stream()
+                .map(PacoteDTO::new)
+                .collect(toList());
+    }
+
+    public List<PacoteDTO> getHistorico(Integer userId) {
+        return repo.findByDono_id(userId)
+                .stream()
+                .map(PacoteDTO::new)
+                .collect(toList());
+    }
 }
