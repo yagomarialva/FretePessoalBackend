@@ -2,6 +2,7 @@ package com.unnt.fretepessoal.controller;
 import java.util.List;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
+import com.unnt.fretepessoal.dto.PacoteDashboardDTO;
 import com.unnt.fretepessoal.dto.PacoteInfoDTO;
 import com.unnt.fretepessoal.dto.TransacaoDTO;
 import com.unnt.fretepessoal.security.UserSS;
@@ -66,5 +67,9 @@ public class PacoteController {
 		return service.getHistorico(((UserSS) auth.getPrincipal()).getId());
 	}
 
+	@GetMapping("/dashboard")
+	public PacoteDashboardDTO obterDashboard() {
+		return service.getDashboard();
+	}
 
 }

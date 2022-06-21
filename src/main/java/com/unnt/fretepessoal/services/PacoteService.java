@@ -1,6 +1,7 @@
 package com.unnt.fretepessoal.services;
 
 import com.unnt.fretepessoal.dto.PacoteDTO;
+import com.unnt.fretepessoal.dto.PacoteDashboardDTO;
 import com.unnt.fretepessoal.dto.TransacaoDTO;
 import com.unnt.fretepessoal.model.City;
 import com.unnt.fretepessoal.model.Pacote;
@@ -9,6 +10,7 @@ import com.unnt.fretepessoal.repository.PacoteRepository;
 import com.unnt.fretepessoal.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -42,7 +44,8 @@ public class PacoteService {
 
     public List<PacoteDTO> list(String query) {
         return (StringUtils.isEmpty(query)
-                ? repo.findAll() : repo.findAllByQuery('%' + query + '%')
+                ? repo.findAll(Sort.by(Sort.Direction.DESC, "dataCriacao"))
+                : repo.findAllByQuery('%' + query + '%')
         ).stream()
                 .map(PacoteDTO::new)
                 .collect(Collectors.toList());
@@ -89,5 +92,14 @@ public class PacoteService {
                 .stream()
                 .map(PacoteDTO::new)
                 .collect(toList());
+    }
+
+    public PacoteDashboardDTO getDashboard() {
+        return new PacoteDashboardDTO(
+            repo.findTotalByStatus(PacoteStatus.NOVO_PACOTE),
+            repo.findTotalByStatus(PacoteStatus.A_CAMINHO),
+            repo.findTotalByStatus(PacoteStatus.ENTREGUE),
+            repo.findTotalByStatus(PacoteStatus.FINALIZADO)
+        );
     }
 }

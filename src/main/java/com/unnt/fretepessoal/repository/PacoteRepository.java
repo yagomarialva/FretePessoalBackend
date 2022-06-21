@@ -17,7 +17,8 @@ public interface PacoteRepository extends JpaRepository<Pacote, Long> {
     @Query("SELECT a FROM Pacote a " +
                 "inner join a.dono d " +
                     "WHERE d.name LIKE ?1 " +
-                    "OR a.code LIKE ?1 ")
+                    "OR a.code LIKE ?1 " +
+                "ORDER BY a.dataCriacao DESC")
     List<Pacote> findAllByQuery(String s);
 
     List<Pacote> findByStatus(PacoteStatus status);
@@ -27,4 +28,7 @@ public interface PacoteRepository extends JpaRepository<Pacote, Long> {
     List<Pacote> findByDono_idAndStatusNot(Integer userId, PacoteStatus finalizado);
 
     List<Pacote> findByDono_id(Integer userId);
+
+    @Query("SELECT COUNT(p) FROM Pacote p WHERE p.status=?1")
+    Integer findTotalByStatus(PacoteStatus status);
 }

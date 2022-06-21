@@ -11,6 +11,7 @@ import com.unnt.fretepessoal.repository.TransacaoRepository;
 import com.unnt.fretepessoal.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,8 @@ public class TransacaoService {
     @Transactional
     public List<TransacaoDTO> list(String query) {
         return (StringUtils.isEmpty(query)
-                ? transacaoRepo.findAll() : transacaoRepo.findAllByQuery('%' + query + '%')
+            ? transacaoRepo.findAll(Sort.by(Sort.Direction.DESC, "dataCriacao"))
+            : transacaoRepo.findAllByQuery('%' + query + '%')
         ).stream()
                 .map(TransacaoDTO::new)
                 .collect(toList());
