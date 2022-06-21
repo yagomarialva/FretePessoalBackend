@@ -19,9 +19,15 @@ public class UserDTO implements Serializable {
 
     private String email;
 
+    private String cpf;
+
+    private String phone;
+
     public UserDTO(User cliente){
         this.id = cliente.getId();
         this.name = cliente.getName();
         this.email = cliente.getEmail();
+        this.cpf = cliente.getCpf();
+        this.phone = cliente.getPhone();
     }
 }
